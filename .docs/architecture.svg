@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 750" width="900" height="750">
+  <defs>
+    <style>
+      .title { font: bold 24px sans-serif; fill: #1e1e1e; }
+      .subtitle { font: 14px sans-serif; fill: #757575; }
+      .zone-label { font: bold 14px sans-serif; }
+      .box-label { font: 600 15px sans-serif; fill: #1e1e1e; text-anchor: middle; }
+      .box-label-sm { font: 600 13px sans-serif; fill: #1e1e1e; text-anchor: middle; }
+      .desc { font: 12px sans-serif; fill: #757575; text-anchor: middle; }
+      .arrow-label { font: 12px sans-serif; fill: #1e1e1e; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#555" />
+    </marker>
+    <marker id="arrowhead-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#22c55e" />
+    </marker>
+    <marker id="arrowhead-purple" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#8b5cf6" />
+    </marker>
+    <marker id="arrowhead-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ef4444" />
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="900" height="750" fill="#fafafa"/>
+  
+  <!-- Title -->
+  <text x="450" y="35" class="title" text-anchor="middle">Research Agents Architecture</text>
+  <text x="450" y="55" class="subtitle" text-anchor="middle">LangChain + Anthropic Claude + Multi-Agent System</text>
+  
+  <!-- User -->
+  <rect x="60" y="80" width="100" height="70" rx="8" fill="#dbe4ff" stroke="#4a9eed" stroke-width="1.5"/>
+  <circle cx="110" cy="100" r="12" fill="#a5d8ff" stroke="#4a9eed" stroke-width="2"/>
+  <rect x="98" y="115" width="24" height="25" rx="4" fill="#a5d8ff" stroke="#4a9eed" stroke-width="2"/>
+  <text x="110" y="158" class="desc">User</text>
+  
+  <!-- Arrow: User to Main -->
+  <line x1="160" y1="115" x2="215" y2="115" stroke="#4a9eed" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="187" y="108" class="arrow-label">query</text>
+  
+  <!-- Main.py -->
+  <rect x="220" y="85" width="130" height="60" rx="10" fill="#fff3bf" stroke="#f59e0b" stroke-width="2"/>
+  <text x="285" y="112" class="box-label">main.py</text>
+  <text x="285" y="128" class="desc">Entry Point</text>
+  
+  <!-- Agent Layer Zone -->
+  <rect x="60" y="180" width="780" height="200" rx="12" fill="#e5dbff" fill-opacity="0.4" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="80" y="200" class="zone-label" fill="#6d28d9">Agent Layer (LangChain)</text>
+  
+  <!-- Arrow: Main to Research Agent -->
+  <line x1="285" y1="145" x2="285" y2="215" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Research Agent -->
+  <rect x="150" y="220" width="200" height="70" rx="10" fill="#d0bfff" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="250" y="250" class="box-label">Research Agent</text>
+  <text x="250" y="268" class="desc">research_agent.py</text>
+  
+  <!-- Visualization Agent -->
+  <rect x="550" y="220" width="200" height="70" rx="10" fill="#d0bfff" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="650" y="250" class="box-label">Visualization Agent</text>
+  <text x="650" y="268" class="desc">visualization_agent.py</text>
+  
+  <!-- Arrow: Research to Viz Agent -->
+  <line x1="350" y1="255" x2="545" y2="255" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrowhead-purple)"/>
+  <text x="447" y="248" class="arrow-label">viz request</text>
+  
+  <!-- LLM Box -->
+  <rect x="350" y="310" width="150" height="55" rx="10" fill="#ffd8a8" stroke="#f59e0b" stroke-width="2"/>
+  <text x="425" y="335" class="box-label">Anthropic Claude</text>
+  <text x="425" y="352" class="desc">LLM</text>
+  
+  <!-- Arrows to LLM -->
+  <line x1="250" y1="290" x2="365" y2="315" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrowhead-purple)"/>
+  <line x1="650" y1="290" x2="485" y2="315" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrowhead-purple)"/>
+  
+  <!-- Tools Layer Zone -->
+  <rect x="60" y="400" width="780" height="130" rx="12" fill="#d3f9d8" fill-opacity="0.4" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="80" y="420" class="zone-label" fill="#15803d">Tools Layer</text>
+  
+  <!-- Arrow: Agent to Tools -->
+  <line x1="220" y1="290" x2="150" y2="445" stroke="#22c55e" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+  
+  <!-- Tool: Search -->
+  <rect x="80" y="440" width="110" height="50" rx="8" fill="#b2f2bb" stroke="#22c55e" stroke-width="2"/>
+  <text x="135" y="462" class="box-label-sm">DuckDuckGo</text>
+  <text x="135" y="478" class="desc">Search</text>
+  
+  <!-- Tool: Wikipedia -->
+  <rect x="210" y="440" width="110" height="50" rx="8" fill="#b2f2bb" stroke="#22c55e" stroke-width="2"/>
+  <text x="265" y="462" class="box-label-sm">Wikipedia</text>
+  <text x="265" y="478" class="desc">Tool</text>
+  
+  <!-- Tool: PDF -->
+  <rect x="340" y="440" width="110" height="50" rx="8" fill="#b2f2bb" stroke="#22c55e" stroke-width="2"/>
+  <text x="395" y="462" class="box-label-sm">PDF Export</text>
+  <text x="395" y="478" class="desc">ReportLab</text>
+  
+  <!-- Tool: PPTX -->
+  <rect x="470" y="440" width="110" height="50" rx="8" fill="#b2f2bb" stroke="#22c55e" stroke-width="2"/>
+  <text x="525" y="462" class="box-label-sm">PPTX Export</text>
+  <text x="525" y="478" class="desc">pptxgenjs</text>
+  
+  <!-- Tool: Visualization -->
+  <rect x="600" y="440" width="110" height="50" rx="8" fill="#c3fae8" stroke="#06b6d4" stroke-width="2"/>
+  <text x="655" y="462" class="box-label-sm">Charts</text>
+  <text x="655" y="478" class="desc">Visualize</text>
+  
+  <!-- Arrow: Viz Agent to Charts Tool -->
+  <line x1="680" y1="290" x2="670" y2="435" stroke="#06b6d4" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Output Layer Zone -->
+  <rect x="60" y="560" width="780" height="100" rx="12" fill="#ffc9c9" fill-opacity="0.35" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="80" y="580" class="zone-label" fill="#dc2626">Output Files</text>
+  
+  <!-- Arrow: Tools to Output -->
+  <line x1="395" y1="490" x2="395" y2="595" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowhead-red)"/>
+  
+  <!-- Output: PDF -->
+  <rect x="130" y="600" width="130" height="45" rx="8" fill="#ffc9c9" stroke="#ef4444" stroke-width="2"/>
+  <text x="195" y="628" class="box-label-sm">📄 research.pdf</text>
+  
+  <!-- Output: PPTX -->
+  <rect x="310" y="600" width="130" height="45" rx="8" fill="#ffc9c9" stroke="#ef4444" stroke-width="2"/>
+  <text x="375" y="628" class="box-label-sm">📊 research.pptx</text>
+  
+  <!-- Output: Viz PPTX -->
+  <rect x="490" y="600" width="140" height="45" rx="8" fill="#c3fae8" stroke="#06b6d4" stroke-width="2"/>
+  <text x="560" y="628" class="box-label-sm">📈 charts_viz.pptx</text>
+  
+  <!-- Legend -->
+  <rect x="700" y="85" width="130" height="75" rx="6" fill="white" stroke="#ddd" stroke-width="1"/>
+  <text x="710" y="102" style="font: bold 11px sans-serif; fill: #555;">Legend</text>
+  <rect x="710" y="110" width="12" height="12" rx="2" fill="#e5dbff"/>
+  <text x="727" y="120" style="font: 10px sans-serif; fill: #555;">Agents</text>
+  <rect x="710" y="126" width="12" height="12" rx="2" fill="#d3f9d8"/>
+  <text x="727" y="136" style="font: 10px sans-serif; fill: #555;">Tools</text>
+  <rect x="710" y="142" width="12" height="12" rx="2" fill="#ffc9c9"/>
+  <text x="727" y="152" style="font: 10px sans-serif; fill: #555;">Outputs</text>
+</svg>
