@@ -1,8 +1,10 @@
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain.agents import create_agent
+import asyncio
+from typing import Dict, Any
 
 from config import get_llm
-from models import ResearchResponse
+from models import ResearchResponse, ResearchRequest
 from tools import search_tool, wiki_tool, save_tool, pptx_tool, visualization_tool
 
 
@@ -114,3 +116,71 @@ def run_agent(agent, parser, query: str):
     except Exception as e:
         print("Error parsing response", e, "Raw Response - ", raw_response)
         return None
+
+
+async def run_research_async(request: ResearchRequest) -> Dict[str, Any]:
+    """
+    Run research agent asynchronously with API request parameters.
+
+    Args:
+        request: ResearchRequest with query and preferences
+
+    Returns:
+        Dictionary with:
+            - response: ResearchResponse object
+            - pdf_path: Path to generated PDF (if requested)
+            - pptx_path: Path to generated PPTX (if requested)
+            - visualization_path: Path to visualization PPTX (if created)
+    """
+    # Run the synchronous agent in a thread pool to avoid blocking
+    loop = asyncio.get_event_loop()
+
+    def _run_sync():
+        # Create agent with model selected based on query complexity
+        agent, parser = create_research_agent(request.query)
+        response = run_agent(agent, parser, request.query)
+        return response
+
+    # Execute in thread pool
+    response = await loop.run_in_executor(None, _run_sync)
+
+    if not response:
+        raise Exception("Research agent failed to generate response")
+
+    # Extract file paths from the response
+    # Note: The tools now save files and return paths in their responses
+    # We need to track which files were created
+    result = {
+        "response": response,
+        "pdf_path": None,
+        "pptx_path": None,
+        "visualization_path": None
+    }
+
+    # The agent automatically calls save_tool and pptx_tool
+    # File paths are generated based on the topic
+    # We'll need to infer the paths or modify tools to return them
+    # For now, we'll look in the output directory for recent files
+    import os
+    from pathlib import Path
+
+    output_dir = Path(__file__).parent.parent / "output"
+    if output_dir.exists():
+        # Get the most recent files (crude but functional for MVP)
+        pdf_files = sorted(output_dir.glob("*.pdf"),
+                           key=os.path.getmtime, reverse=True)
+        pptx_files = sorted(output_dir.glob("*.pptx"),
+                            key=os.path.getmtime, reverse=True)
+
+        if "pdf" in request.output_formats and pdf_files:
+            result["pdf_path"] = str(pdf_files[0])
+
+        if "pptx" in request.output_formats and pptx_files:
+            # First pptx might be visualization, second is regular
+            if len(pptx_files) >= 2 and request.include_visualization:
+                result["visualization_path"] = str(pptx_files[0])
+                result["pptx_path"] = str(pptx_files[1])
+            elif pptx_files:
+                result["pptx_path"] = str(pptx_files[0])
+
+    return result

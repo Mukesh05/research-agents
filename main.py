@@ -1,16 +1,20 @@
-from agents import create_research_agent, run_agent
+"""
+Research Agent API Server
+FastAPI-based async research assistant with PDF/PPTX generation.
+"""
+
+import uvicorn
 
 
 def main():
-    """Main entry point for the research assistant."""
-    query = input("What can I help you research? ")
-    
-    # Create agent with model selected based on query complexity
-    agent, parser = create_research_agent(query)
-    response = run_agent(agent, parser, query)
-    
-    if response:
-        print(response)
+    """Main entry point - Launch FastAPI server."""
+    uvicorn.run(
+        "api.server:app",
+        host="0.0.0.0",
+        port=8000,
+        reload=True,
+        log_level="info"
+    )
 
 
 if __name__ == "__main__":

@@ -1,6 +1,50 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, Literal
 from enum import Enum
+
+
+class ResearchRequest(BaseModel):
+    """Request schema for initiating research via API."""
+    query: str = Field(...,
+                       description="The research question or topic to investigate")
+    output_formats: list[Literal["pdf", "pptx"]] = Field(
+        default=["pdf", "pptx"],
+        description="Output formats to generate"
+    )
+    theme: Literal["navy-teal", "navy-gold", "charcoal-blue"] = Field(
+        default="navy-teal",
+        description="Presentation theme for PPTX and visualizations"
+    )
+    include_visualization: bool = Field(
+        default=True,
+        description="Automatically create McKinsey-style visualizations for numerical data"
+    )
+
+
+class JobStatus(str, Enum):
+    """Job processing status."""
+    PENDING = "pending"
+    RUNNING = "running"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
+
+class JobSubmitResponse(BaseModel):
+    """Response after submitting a research job."""
+    job_id: str
+    status: JobStatus
+    message: str
+
+
+class JobStatusResponse(BaseModel):
+    """Response containing job status and results."""
+    job_id: str
+    status: JobStatus
+    progress: Optional[str] = None
+    result: Optional["ResearchResponse"] = None
+    # {"pdf": "/api/outputs/...", "pptx": "..."}
+    file_urls: Optional[dict[str, str]] = None
+    error: Optional[str] = None
 
 
 class ResearchResponse(BaseModel):
