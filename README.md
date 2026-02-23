@@ -1,47 +1,96 @@
 # Research Agents
 
-An AI-powered research assistant that automatically generates comprehensive research reports with professional outputs in PDF and PowerPoint formats. Built with LangChain and Claude (Anthropic).
+AI-powered research assistant that generates comprehensive research reports with professional PDF and PowerPoint outputs. Built with LangChain and Claude (Anthropic).
 
 ## Features
 
-- 🔍 **Intelligent Research**: Leverages DuckDuckGo search and Wikipedia for comprehensive research
-- 🤖 **Adaptive AI**: Uses Claude Sonnet for standard queries, Claude Opus for complex research
-- 📄 **PDF Export**: Automatically generates formatted research reports as PDFs
-- 📊 **PowerPoint Generation**: Creates professional presentations from research data
-- 📈 **Data Visualization**: Generates McKinsey-style presentations with charts for numerical data
-- 🎨 **Multiple Themes**: Navy-teal, navy-gold, and charcoal-blue color schemes
+- 🔍 Intelligent research using DuckDuckGo and Wikipedia
+- 🤖 Adaptive AI (Claude Sonnet for speed, Opus for complex research)
+- 📄 PDF report generation
+- 📊 PowerPoint presentations with data visualizations
+- 🎨 Multiple color themes (navy-teal, navy-gold, charcoal-blue)
 
 ## Architecture
 
 ![Architecture Diagram](.docs/architecture.svg)
 
-### Agents
-- **Research Agent**: Main agent that conducts research using web search and Wikipedia
-- **Visualization Agent**: Specialized agent for creating data-driven presentations with charts
+The system uses a multi-agent architecture with LangChain orchestrating two specialized agents:
+- **Research Agent**: Conducts research using web search and Wikipedia
+- **Visualization Agent**: Creates data-driven presentations with charts
 
-### Tools
-- `search_tool`: DuckDuckGo web search integration
-- `wiki_tool`: Wikipedia article retrieval
-- `save_to_pdf`: Export research as formatted PDF documents
-- `save_to_pptx`: Create PowerPoint presentations
-- `visualize_data`: Generate McKinsey-style presentations with charts
+Both agents leverage Anthropic Claude for intelligent processing and have access to specialized tools for search, content retrieval, and file generation.
 
-### Technology Stack
-- **Python 3.11+**: Core language
-- **LangChain**: Agent orchestration framework
-- **Anthropic Claude**: AI models (Sonnet 4 & Opus 4)
-- **Node.js**: Required for PowerPoint generation via pptxgenjs
-- **ReportLab**: PDF generation
-- **PptxGenJS**: JavaScript library for creating PowerPoint files
+## Quick Start
 
-## Prerequisites
+### Prerequisites
+- Python 3.11+
+- Node.js
+- Anthropic API key ([get one here](https://console.anthropic.com/))
 
-### Required
-- Python 3.11 or higher
-- Node.js (for PowerPoint generation)
-- Anthropic API key
+### Installation
 
-### Environment Setup
-1. Create a `.env` file in the project root:
+```bash
+# Clone and navigate
+git clone <repository-url>
+cd research-agents
+
+# Set up Python environment
+python -m venv venv311
+.\venv311\Scripts\activate  # Windows
+# source venv311/bin/activate  # Linux/Mac
+
+# Install dependencies
+pip install -r requirements.txt
+npm install
+
+# Configure API key
+echo "ANTHROPIC_API_KEY=your_key_here" > .env
+```
+
+### Run the Application
+
+```bash
+# Terminal 1 - Start API server
+python main.py
+
+# Terminal 2 - Start web UI
+cd frontend
+streamlit run streamlit_app.py
+```
+
+Open `http://localhost:8501` in your browser to use the web interface.
+
+## Configuration
+
+Create a `.env` file:
 ```env
-ANTHROPIC_API_KEY=your_api_key_here
+ANTHROPIC_API_KEY=your_key_here
+PORT=8000  # optional
+```
+
+Edit [`config/config.py`](config/config.py) to customize models, themes, and output paths.
+
+## Themes
+
+- **Navy-Teal**: Navy Blue & Teal (default)
+- **Navy-Gold**: Navy Blue & Gold (elegant)
+- **Charcoal-Blue**: Charcoal & Blue (corporate)
+
+## Troubleshooting
+
+- **API won't start**: Check `.env` has valid `ANTHROPIC_API_KEY` and port 8000 is free
+- **Streamlit can't connect**: Ensure API server is running on port 8000
+- **PowerPoint fails**: Verify Node.js is installed (`node --version`)
+- **No results**: Check internet connection and API key validity
+
+## License
+
+MIT License
+
+## Contributing
+
+Contributions welcome! Fork, create a feature branch, commit, push, and open a Pull Request.
+
+---
+
+Built with LangChain and Claude AI
